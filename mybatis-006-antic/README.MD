@@ -53,14 +53,4 @@
       <mappers>
         <package name="com.powernode.mapper"/>
       </mappers>
-      ``` 
-- 使用自动生成的主键值
-  - mybatis可以通过自动生成主键值来实现。不需要手动生成主键值
-  - ```xml
-    <!-- null值对应mysql的自增主键，和映射对象的id属性 -->
-    <insert id="..." userGeneratedKeys="true" keyProperty="id">
-        insert into table value(null, #{...}, #{...})
-    </insert>
-    ```
-  - `userGeneratedKeys="true"`: 使用自动生成的主键
-  - `keyProperty="id"`: 指定主键值，赋值给对象的那个属性
+      ```
