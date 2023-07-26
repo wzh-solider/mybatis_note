@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- jdbc配置文件路径 -->
+    <properties resource="jdbc.properties"/>
+
+    <!-- 起别名 -->
+    <!--
+        <typeAliases>标签，用于给指定路径，起别名
+        type="类或类目标名称"
+        alias="别名" ==> 不区分大小写。
+    -->
+
+    <!-- alias属性，可以省略，默认为全限定类名的简写
+        Eg: type="com.powernode.bean.Car" ==> 默认alias="car / Car..."不区分大小写。 -->
+
+    <!-- 如果需要多个别名，可以使用package标签，配置多个别名目录
+        Eg: <package name="com.powernode.bean"/> mybatis会将此包下的所有类，起别名，默认简名-->
+    <typeAliases>
+        <!-- <typeAlias type="com.powernode.bean.Car" alias="car"/> -->
+        <package name="com.powernode.bean"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="CarMapper.xml"/>
+    </mappers>
+</configuration>

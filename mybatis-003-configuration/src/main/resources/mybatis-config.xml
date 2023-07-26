@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="jdbc.properties"/>
+
+    <environments default="mybatis">
+        <environment id="mybatis">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+
+                <!-- 设置连接池，最大连接数 -->
+                <property name="poolMaximumActiveConnections" value="10"/>
+                
+                <!-- 每隔两秒打印一次日志，并尝试连接 -->
+                <property name="poolTimeToWait" value="2000"/>
+
+                <!-- 强行让某个连接空闲，超时时间的设置 -->
+                <property name="poolMaximumCheckoutTime" value="1000"/>
+                
+                <!-- 设置最多空闲的连接 -->
+                <property name="poolMaximumIdleConnections" value="5"/>
+            </dataSource>
+        </environment>
+
+        <environment id="bjpowernode">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/bjpowernode"/>
+                <property name="username" value="root"/>
+                <property name="password" value="wzh7230610"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="CarMapper.xml"/>
+        <mapper resource="ClassMapper.xml"/>
+    </mappers>
+</configuration>

@@ -1,0 +1,13 @@
+# Bank项目记录日志
+  - 找不到文件，404错误
+    - 解决方法：
+      - 找到`web.xml`配置文件，将`metadata-complete="true"`属性中的值改为`false`
+      - `true` ==> 只支持`xml`配置
+      - `false` ==> 既支持`xml`配置，又支持`@`注解
+  - 数据库配置文件，properties文件找不到
+    - 在`mybatis-config.xml`配置了`<properties>`属性后
+    - 使用会直接找到指定的配置文件
+    - 但是在书写时，需要一一对应
+    - `jdbc.driver=...` ==> `<property name="driver" value="${jdbc.driver}"/>`
+  - MyBatis的事务管理
+    - 使用`ThreadLocal`，来解决事务问题
