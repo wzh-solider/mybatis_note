@@ -24,3 +24,33 @@
         <package name="com.powernode.bean"/>
     </typeAliases>
 ```
+- MyBatis中的`mappers`标签包含
+  - `mapper`标签
+    - `mapper`标签中的属性包括
+      - `resource`：映射文件的资源文件路径，mybatis会从项目根路径中，寻找映射文件。
+        - ```xml
+          <mappers>
+            <mapper resource="com/powernode/mapper/AuthorMapper.xml"/>
+          </mappers>
+          ```
+      - `url`：映射文件的绝对路径（一般不建议写绝对路径，会导致项目的移植性下降）
+        - ```xml
+          <mappers>
+            <mapper url="file:///d:/.../com/powernode/mapper/AuthorMapper.xml"/>
+          </mappers>
+          ```
+      - `class`：提供`mapper`接口的全限定接口名，必须带有包名
+        - 并且这个`xml`文件，必须放在跟接口相同的包下
+        - ![img.png](img.png)
+        - ```xml
+          <mappers>
+            <mapper class="com.powernode.mapper.CarMapper"/>
+          </mappers>
+          ```
+  - `package`标签（最常用）
+    - 前提：`xml`文件必须和接口放在一起，并且名字一致
+    - ```xml
+      <mappers>
+        <package name="com.powernode.mapper"/>
+      </mappers>
+      ```
