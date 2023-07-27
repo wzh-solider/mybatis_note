@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.powernode.mapper.StudentMapper">
+
+    <select id="selectAll" resultType="student">
+        select * from t_student
+    </select>
+
+    <!-- 根据指定参数，查询内容 -->
+    <!--
+        parameterType: 用于指定传入参数类型
+        但是，mybatis框架底层有类型自动推断机制，所以大部分情况下可以不写
+    -->
+    <select id="selectById" resultType="student" parameterType="long">
+        select * from t_student where id = #{id}
+    </select>
+
+    <!--
+        select * from t_student where name = #{name, javaType=String, jdbcType=VARCHAR}
+        我们也可以在#{}里面指定参数类型，可以提高效率
+        javaType: 传入参数的类型
+        jdbcType: 数据库中的字段类型
+    -->
+    <select id="selectByName" resultType="student">
+        select * from t_student where name = #{name, javaType=String, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByAge" resultType="student">
+        select * from t_student where age = #{age}
+    </select>
+
+    <select id="selectBySex" resultType="student">
+        select * from t_student where sex = #{sex}
+    </select>
+
+    <!-- Map集合插入 -->
+    <insert id="insertByMap" parameterType="map">
+        insert into t_student(id, name, age, height, birth, sex)
+        values (null, #{name}, #{age}, #{height}, #{birth}, #{sex})
+    </insert>
+
+    <!-- 多参数查找 -->
+    <!--
+        在低版本的mybatis中，#{}里面的参数可以填1、2...
+        但是在高版本中，#{}里面填入[param1 | param2 | ...]、[arg0 | arg1 | ...]
+        不管是使用哪种方式，mybatis在底层都会创建一个map集合，底层默认命名key
+        map.put("param1", value)...
+        map.put("arg0", value)...
+    -->
+    <select id="selectByNameAndSex" resultType="student">
+        select * from t_student
+        where name = #{param1} and sex = #{param2}
+    </select>
+
+    <!-- 使用@Param注解开发 -->
+    <select id="selectByNameAndSex2" resultType="student">
+        select * from t_student
+        where name = #{name} and sex = #{sex}
+    </select>
+</mapper>

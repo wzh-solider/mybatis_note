@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.powernode.mapper.CarMapper">
+    <!--
+        1、专门定义一个结果映射，在这个结果映射中指定数据库表中的字段名和Java类的属性名的对应关系
+        2、type属性：用来指定[bean | pojo | domain]类的类名
+        3、id属性：指定resultMap的唯一标识，这个id将来要在select标签中使用
+    -->
+    <resultMap id="carResultMap" type="Car">
+        <!-- 如果数据库表中含有主键，建议配置id标签。非必须，但是官方解释可以提高效率 -->
+        <id property="id" column="id"/>
+
+        <!-- property后面填写pojo类的属性名 -->
+        <!-- column后面填写的数据库表的字段名 -->
+        <result property="carNum" column="car_num"/>
+        <result property="brand" column="brand"/>
+        <result property="guidePrice" column="guide_price"/>
+        <result property="produceTime" column="produce_time"/>
+        <result property="carType" column="car_type"/>
+    </resultMap>
+    <!-- select标签的resultMap属性，用来指定使用哪个结果映射 -->
+    <select id="selectAllByResultMap" resultMap="carResultMap">
+        select * from t_car
+    </select>
+
+    <!-- 返回Map<String, Map> -->
+    <select id="selectAllRetMap" resultType="map" resultMap="carResultMap">
+        select * from t_car
+    </select>
+
+</mapper>
