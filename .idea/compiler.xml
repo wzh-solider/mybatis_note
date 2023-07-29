@@ -13,6 +13,7 @@
         <module name="mybatis-005-crud2" />
         <module name="mybatis-001-introduction" />
         <module name="javassist-test" />
+        <module name="mybatis-008-cynamic-sql" />
         <module name="mybatis-002-crud" />
         <module name="mybatis-003-configuration" />
       </profile>
