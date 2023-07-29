@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.powernode.mapper.CarMapper">
+
+    <insert id="insertData">
+        insert into t_car
+        values(#{id}, #{carNum}, #{brand}, #{guidePrice}, #{produceTime}, #{carType})
+    </insert>
+
+    <select id="selectByMultiCondition" resultType="car">
+        select * from t_car where true
+        <!--
+            1、if标签中的test属性是必须的(required)
+            2、test的值是布尔类型：true / false
+            3、为真，将if标签中的SQL语句拼接到外面的SQL语句中
+            4、test属性中的值
+                当使用@Param注解时，test属性值只能填入规定的参数名
+                当没有使用注解时，test属性值可以为[param1... | arg0...]
+                当使用了[bean | pojo | domain...]包中的类，test属性值为类中的属性值
+         -->
+        <if test="brand != null and brand != ''">
+            and brand like "%"#{brand}"%"
+        </if>
+        <if test="guidePrice != null and guidePrice != ''">
+            and guide_price > #{guidePrice}
+        </if>
+        <if test="carType != null and carType != ''">
+            and car_type = #{carType}
+        </if>
+    </select>
+
+    <select id="selectByMultiConditionWithWhere" resultType="car">
+        select * from t_car
+        <!--
+            where标签用于动态生成WHERE标签，解决了在只使用if标签的弊端
+            同时，会将第一个为真的条件前多余的[and | or ...]去除
+        -->
+        <where>
+            <if test="brand != null and brand != ''">
+                brand like "%"#{brand}"%"
+            </if>
+            <if test="guidePrice != null and guidePrice != ''">
+                and guide_price > #{guidePrice}
+            </if>
+            <if test="carType != null and carType != ''">
+                and car_type = #{carType}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByMultiConditionWithTrim" resultType="car">
+        select * from t_car
+        <!--
+            prefix: 加前缀
+            prefixOverrides: 删除前缀
+            suffix: 加后缀
+            suffixOverrides: 删除后缀
+         -->
+
+        <!-- 智能加上where前缀，并且删除后缀and或者or -->
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="brand != null and brand != ''">
+                brand like "%"#{brand}"%"
+            </if>
+            <if test="guidePrice != null and guidePrice != ''">
+                and guide_price > #{guidePrice}
+            </if>
+            <if test="carType != null and carType != ''">
+                and car_type = #{carType}
+            </if>
+        </trim>
+    </select>
+
+    <update id="updateBySet">
+        update t_car
+
+        <!-- 使用set标签，用于动态生成SET语句 -->
+        <!--
+            以下语句只更新属性不为null并且不为''，如果if条件不成立，则不更新此属性
+            只更新条件为真的字段
+        -->
+        <set>
+            <if test="carNum != null and carNum != ''">car_num = #{carNum},</if>
+            <if test="brand != null and brand != ''">brand = #{brand},</if>
+            <if test="guidePrice != null and guidePrice != ''">guide_price = #{guidePrice},</if>
+            <if test="produceTime != null and produceTime != ''">produce_time = #{produceTime},</if>
+            <if test="carType != null and carType != ''">car_type = #{carType},</if>
+        </set>
+        where
+        id = #{id}
+    </update>
+
+    <select id="selectByChoose" resultType="Car">
+        select * from t_car
+        <where>
+            <choose>
+                <when test="brand != null and brand != ''">
+                    brand like "%"#{brand}"%"
+                </when>
+                <when test="guidePrice != null and guidePrice != ''">
+                    guide_price > #{guidePrice}
+                </when>
+                <otherwise>
+                    car_type = #{carType}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!-- 使用foreach进行批量删除 -->
+    <!--
+        collection: 指定的数组或集合
+        item: 数组或集合中的元素
+        separator: 值与值之间的分隔符 ==> delete from t_car where id in (1, 2, 3)【分隔符为","】
+        open: 循环开始，以什么开始
+        close: 循环结束，以什么结束
+    -->
+    <delete id="deleteByIds">
+        <!--
+            delete from t_car where id in (
+                        <foreach collection="ids" item="id" separator=",">
+                            每循环一次，取出一个值，而#{}里面的名字是item后的值
+                            #{id}
+                        </foreach>
+                   )
+         -->
+        delete from t_car where id in
+            <foreach collection="ids" item="id" separator="," open="(" close=")">
+                #{id}
+            </foreach>
+    </delete>
+
+    <!-- 通过foreach一次插入多条数据 -->
+    <insert id="insertBatch">
+        insert into t_car values
+        <foreach collection="cars" item="car" separator=",">
+            (null, #{car.carNum}, #{car.brand}, #{car.guidePrice}, #{car.produceTime}, #{car.carType})
+        </foreach>
+    </insert>
+</mapper>
