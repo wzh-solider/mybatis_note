@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.powernode.mapper.ClazzMapper">
+
+    <resultMap id="clazzResultMapStep" type="Clazz">
+        <result property="cid" column="cid"/>
+        <result property="cname" column="cname"/>
+
+        <collection property="students"
+                    select="com.powernode.mapper.StudentMapper.selectByIdStep2"
+                    column="cid"/>
+    </resultMap>
+    <select id="selectByIdStep1" resultMap="clazzResultMapStep">
+        select * from t_clazz where cid = #{cid}
+    </select>
+
+
+    <resultMap id="clazzResultMap" type="Clazz">
+        <id property="cid" column="cid"/>
+        <result property="cname" column="cname"/>
+
+        <!--
+            property: 集合的属性名
+            ofType: 集合中存放的类型
+        -->
+        <collection property="students" ofType="Student">
+            <id property="sid" column="sid"/>
+            <result property="sname" column="sname"/>
+        </collection>
+    </resultMap>
+    <select id="selectByCollection" resultMap="clazzResultMap">
+        select c.cid, c.cname, s.sid, s.sname
+        from t_clazz c
+                 left join t_student s on c.cid = s.cid
+        where c.cid = #{cid}
+    </select>
+
+    <!-- 分步查询第二步 -->
+    <select id="selectByIdStep2" resultType="Clazz">
+        select * from t_clazz where cid = #{cid}
+    </select>
+</mapper>
