@@ -7,7 +7,7 @@ import java.sql.Date;
  * @version 1.0
  * @since 1.0
  */
-public class Student {
+public class StudentTest {
     private Long id;
     private String name;
     private Integer age;
@@ -15,7 +15,7 @@ public class Student {
     private Date birth;
     private String sex;
 
-    public Student(Long id, String name, Integer age, Double height, Date birth, String sex) {
+    public StudentTest(Long id, String name, Integer age, Double height, Date birth, String sex) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -24,7 +24,7 @@ public class Student {
         this.sex = sex;
     }
 
-    public Student() {
+    public StudentTest() {
     }
 
     @Override
