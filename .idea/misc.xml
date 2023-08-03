@@ -17,6 +17,10 @@
         <option value="$PROJECT_DIR$/mybatis-007-param/pom.xml" />
         <option value="$PROJECT_DIR$/mybatis-008-cynamic-sql/pom.xml" />
         <option value="$PROJECT_DIR$/mybtatis-009-advanced-mapping/pom.xml" />
+        <option value="$PROJECT_DIR$/mybatis-010-cache/pom.xml" />
+        <option value="$PROJECT_DIR$/mybatis-011-generator/pom.xml" />
+        <option value="$PROJECT_DIR$/mybatis-012-page/pom.xml" />
+        <option value="$PROJECT_DIR$/mybatis-013-annotation/pom.xml" />
       </list>
     </option>
   </component>
